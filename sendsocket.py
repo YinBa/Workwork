@@ -9,13 +9,10 @@ def SendToUDP():
             if line:  # 如果副本文件第一行不为空
                 while line:  # 则进入循环，直至进入空行
                     print(r"Sending the Message: %s" % line)  # 检查输出内容
-                    buf = ""  # 这是个奇怪的文件头
-                    for i in line:
-                        buf = buf + "" + i  # 假装自己是unicode
-                    client.sendto(buf.encode('utf-8'), ('localhost', 8080))  # 发送消息
+                    client.sendto(line.encode('utf-8'), UDPtarget)  # 发送消息
                     print("Message Sent")
                     line = f2.readline()  # 读取下一行
-                    time.sleep(0.08)  # 避免发送过快
+                    time.sleep(0.5)  # 避免发送过快
 
                     # 如果未满足if条件 或 走完if的流程后
             f2.close()  # 关闭副本文件
@@ -34,7 +31,7 @@ def SendToUDP():
                 else:  # 不然就歇一会儿继续查
                     f1.close()
                     print("The Origin File is Empty")
-                    time.sleep(0.1)
+                    time.sleep(5)
 
             f1 = open(filename1, "r+")  # 打开原文件
             f2 = open(filename2, "r+")  # 打开副本文件
